@@ -11,7 +11,6 @@ from functools import lru_cache
 
 import mlflow
 import torch
-from mlflow.exceptions import RestException
 
 from conf.app_config import DEVICE, ENABLE_MODEL_CACHING, MAX_CACHE_SIZE
 from services.messages import ClearCacheMessages, ModelRegistrationMessages
@@ -39,10 +38,7 @@ def save_model(model, artifact_path, signature, pip_requirements):
 
     """
     return mlflow.pytorch.log_model(
-        model,
-        artifact_path,
-        signature=signature,
-        pip_requirements=pip_requirements
+        model, artifact_path, signature=signature, pip_requirements=pip_requirements
     )
 
 
@@ -68,7 +64,7 @@ def register_model(run_id: str, model_name: str):
             ),
         )
 
-    result = mlflow.register_model(f"runs:/{run_id}/models", model_name)
+    result = mlflow.register_model(f"runs:/{run_id}/models", model_name)  # type: ignore[attr-defined]
     return ModelRegistrationResult(
         success=True,
         message=ModelRegistrationMessages.SUCCESS,
@@ -106,10 +102,10 @@ def get_model_signature(model, input):
 
 
 def get_model(
-    run_id: str = None,
-    model_name: str = None,
-    model_version: str = None,
-    model_alias: str = None,
+    run_id: str | None = None,
+    model_name: str | None = None,
+    model_version: str | None = None,
+    model_alias: str | None = None,
     device=DEVICE,
     enable_model_caching=ENABLE_MODEL_CACHING,
 ):
@@ -133,12 +129,14 @@ def get_model(
     """
     if enable_model_caching:
         model = _get_model_cached(
-            run_id, model_name, model_version, model_alias, device,
+            run_id,
+            model_name,
+            model_version,
+            model_alias,
+            device,
         )
     else:
-        model = _load_model(
-            run_id, model_name, model_version, model_alias, device
-        )
+        model = _load_model(run_id, model_name, model_version, model_alias, device)
     return model
 
 
@@ -156,18 +154,22 @@ def clear_cache():
 
 @lru_cache(maxsize=MAX_CACHE_SIZE)  # Cache all results
 def _get_model_cached(
-    run_id: str, model_name: str, model_version: str, model_alias: str, device,
+    run_id: str | None,
+    model_name: str | None,
+    model_version: str | None,
+    model_alias: str | None,
+    device,
 ):
-    """Cached version of get_model to avoid repetead download of the model."""
+    """Cached version of get_model to avoid repeated download of the model."""
     model = _load_model(run_id, model_name, model_version, model_alias)
     return model
 
 
 def _load_model(
-    run_id: str = None,
-    model_name: str = None,
-    model_version: str = None,
-    model_alias: str = None,
+    run_id: str | None = None,
+    model_name: str | None = None,
+    model_version: str | None = None,
+    model_alias: str | None = None,
     device=DEVICE,
 ):
     """
@@ -189,15 +191,14 @@ def _load_model(
         model_uri = f"models:/{model_name}@{model_alias}"
     else:
         model_uri = f"models:/{model_name}/{model_version}"
-    model = mlflow.pytorch.load_model(model_uri, map_location=device)
+    model = mlflow.pytorch.load_model(model_uri, map_location=device)  # type: ignore[attr-defined]
     return model
 
 
 def _get_latest_run_id():
     """Retrieve and return the latest run ID among all active experiments."""
     latest_run = mlflow.search_runs(
-        order_by=["start_time DESC"],
-        filter_string="tags.mlflow.runName = 'train'"
+        order_by=["start_time DESC"], filter_string="tags.mlflow.runName = 'train'"
     )
     if not latest_run.empty:
         return latest_run.iloc[0]["run_id"]

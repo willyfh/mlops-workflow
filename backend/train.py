@@ -18,6 +18,7 @@ def main():
     # Load config using Hydra YAML or Pydantic, then pass as dict to service
     import yaml
     from pathlib import Path
+
     logger = get_logger(__name__)
     script_dir = Path(__file__).parent
     default_config_path = script_dir / "conf" / "config.yaml"

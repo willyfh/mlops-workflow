@@ -23,11 +23,15 @@ from services.artifact_service import (
 )
 
 mock_model1 = nn.Sequential(
-    nn.Conv2d(3, 6, 5, padding="same"), nn.ReLU(), nn.MaxPool2d(2, 2),
+    nn.Conv2d(3, 6, 5, padding="same"),
+    nn.ReLU(),
+    nn.MaxPool2d(2, 2),
 )
 
 mock_model2 = nn.Sequential(
-    nn.Conv2d(3, 6, 5, padding="valid"), nn.ReLU(), nn.MaxPool2d(2, 2),
+    nn.Conv2d(3, 6, 5, padding="valid"),
+    nn.ReLU(),
+    nn.MaxPool2d(2, 2),
 )
 
 

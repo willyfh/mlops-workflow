@@ -34,9 +34,14 @@ async def run_train(config_dict: dict) -> TrainResult:
     """
     from hydra import initialize, compose
     from omegaconf import OmegaConf
+
     conf_dir = "../conf"
     with initialize(config_path=conf_dir, version_base=None):
-        overrides = [f"{k}={v}" for k, v in config_dict.items() if isinstance(v, (str, int, float))]
+        overrides = [
+            f"{k}={v}"
+            for k, v in config_dict.items()
+            if isinstance(v, (str, int, float))
+        ]
         cfg = compose(config_name="config", overrides=overrides)
         config = OmegaConf.to_container(cfg, resolve=True)
 
@@ -67,7 +72,9 @@ async def run_train(config_dict: dict) -> TrainResult:
     try:
         experiment_id = _get_experiment_id(experiment_name)
     except Exception as e:
-        logger.warning(f"MLflow server unavailable, skipping MLflow logging. Reason: {e}")
+        logger.warning(
+            f"MLflow server unavailable, skipping MLflow logging. Reason: {e}"
+        )
         mlflow_enabled = False
         experiment_id = None
 
@@ -87,7 +94,7 @@ async def run_train(config_dict: dict) -> TrainResult:
             train_size,
             custom_train_transform,
             custom_val_transform,
-            seed
+            seed,
         )
         logger.info("[TRAIN] Dataloaders created successfully.")
         log_memory("after dataloader")
@@ -111,20 +118,20 @@ async def run_train(config_dict: dict) -> TrainResult:
         logger.error(f"[TRAIN] Model creation failed: {e}")
         log_memory("model exception")
         return TrainResult(
-            success=False, message=TrainMessages.FAILURE.format(str(e)),
+            success=False,
+            message=TrainMessages.FAILURE.format(str(e)),
         )
 
     logger.info("[TRAIN] Instantiating optimizer via Hydra")
     optimizer = instantiate(optimizer_cfg, model.parameters())
     logger.info("[TRAIN] Instantiating scheduler via Hydra (if any)")
-    scheduler = instantiate(scheduler_cfg, optimizer) if scheduler_cfg.get("_target_") else None
+    scheduler = (
+        instantiate(scheduler_cfg, optimizer) if scheduler_cfg.get("_target_") else None
+    )
 
     if mlflow_enabled:
-        with mlflow.start_run(
-            experiment_id=experiment_id,
-            run_name=run_name
-        ):
-            mlflow.log_params(config)
+        with mlflow.start_run(experiment_id=experiment_id, run_name=run_name):  # type: ignore[attr-defined]
+            mlflow.log_params(config)  # type: ignore[attr-defined]
             logger.info("[TRAIN] MLflow logging enabled.")
             logger.info("[TRAIN] Starting training loop...")
             log_memory("before training loop")
@@ -137,7 +144,7 @@ async def run_train(config_dict: dict) -> TrainResult:
                 scheduler,
                 train_loader,
                 val_loader,
-                DEVICE
+                DEVICE,
             )
             logger.info("[TRAIN] Training loop finished.")
             log_memory("after training loop")
@@ -146,7 +153,11 @@ async def run_train(config_dict: dict) -> TrainResult:
             logger.info("[TRAIN] Starting test evaluation...")
             log_memory("before test eval")
             test_loss, test_accuracy = await loop.run_in_executor(
-                None, _test_model, model, test_loader, DEVICE,
+                None,
+                _test_model,
+                model,
+                test_loader,
+                DEVICE,
             )
             logger.info("[TRAIN] Test evaluation finished.")
             log_memory("after test eval")
@@ -155,7 +166,10 @@ async def run_train(config_dict: dict) -> TrainResult:
             sample_batch = next(iter(test_loader))
             input_sample = sample_batch[0].to(DEVICE)[:1]
             signature = await loop.run_in_executor(
-                None, get_model_signature, model, input_sample,
+                None,
+                get_model_signature,
+                model,
+                input_sample,
             )
             logger.info("[TRAIN] Model signature obtained.")
             log_memory("after signature")
@@ -164,7 +178,7 @@ async def run_train(config_dict: dict) -> TrainResult:
                 model,
                 "models",
                 signature=signature,
-                pip_requirements="requirements.txt"
+                pip_requirements="requirements.txt",
             )
             logger.info("[TRAIN] Model saved.")
             log_memory("after save model")
@@ -181,7 +195,7 @@ async def run_train(config_dict: dict) -> TrainResult:
             scheduler,
             train_loader,
             val_loader,
-            DEVICE
+            DEVICE,
         )
         logger.info("[TRAIN] Training loop finished.")
         log_memory("after training loop")
@@ -190,7 +204,11 @@ async def run_train(config_dict: dict) -> TrainResult:
         logger.info("[TRAIN] Starting test evaluation...")
         log_memory("before test eval")
         test_loss, test_accuracy = await loop.run_in_executor(
-            None, _test_model, model, test_loader, DEVICE,
+            None,
+            _test_model,
+            model,
+            test_loader,
+            DEVICE,
         )
         logger.info("[TRAIN] Test evaluation finished.")
         log_memory("after test eval")
@@ -199,16 +217,16 @@ async def run_train(config_dict: dict) -> TrainResult:
         sample_batch = next(iter(test_loader))
         input_sample = sample_batch[0].to(DEVICE)[:1]
         signature = await loop.run_in_executor(
-            None, get_model_signature, model, input_sample,
+            None,
+            get_model_signature,
+            model,
+            input_sample,
         )
         logger.info("[TRAIN] Model signature obtained.")
         log_memory("after signature")
 
         result = save_model(
-            model,
-            "models",
-            signature=signature,
-            pip_requirements="requirements.txt"
+            model, "models", signature=signature, pip_requirements="requirements.txt"
         )
         logger.info("[TRAIN] Model saved.")
         log_memory("after save model")
@@ -234,7 +252,7 @@ def _train_model_ext(
     train_loader,
     val_loader,
     device=DEVICE,
-    log_interval=50
+    log_interval=50,
 ):
     """
     Train the model using the specified optimizer, scheduler, and data loaders.
@@ -275,9 +293,7 @@ def _train_model_ext(
             # Log metrics for each step
             if step % log_interval == 0 and step > 0:
                 train_loss /= log_interval
-                train_accuracy = (
-                    correct_train / total_train if total_train > 0 else 0.0
-                )
+                train_accuracy = correct_train / total_train if total_train > 0 else 0.0
                 logger.info(
                     f"Epoch {epoch+1}/{max_epochs}, "
                     f"Step {step}/{len(train_loader)}, "
@@ -289,9 +305,7 @@ def _train_model_ext(
                 total_train = 0
 
         train_loss /= len(train_loader)
-        train_accuracy = (
-            correct_train / total_train if total_train > 0 else 0.0
-        )
+        train_accuracy = correct_train / total_train if total_train > 0 else 0.0
 
         # Validation
         model.eval()

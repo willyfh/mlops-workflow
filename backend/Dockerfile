@@ -31,4 +31,3 @@ EXPOSE 8000
 
 # Command to run the API
 CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "main:app", "-b", "0.0.0.0:8000", "-t", "0", "--workers", "3", "--threads", "4"]
-

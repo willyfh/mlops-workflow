@@ -8,14 +8,11 @@ Last Updated: September 5, 2025
 """
 
 from fastapi import APIRouter, File, UploadFile, BackgroundTasks
-from schemas.request_schema import (
-    ModelRegistrationRequest,
-    InferenceRequest
-)
+from schemas.request_schema import ModelRegistrationRequest, InferenceRequest
 from schemas.result_schema import (
     ClearCacheResult,
     ModelRegistrationResult,
-    InferenceResult
+    InferenceResult,
 )
 from services import artifact_service, inference_service, train_service
 import yaml
@@ -30,9 +27,7 @@ async def register_model_latest(request_body: ModelRegistrationRequest):
 
 @router.post("/register_model/run_id/{run_id}", response_model=ModelRegistrationResult)
 async def register_model_with_run_id(request_body: ModelRegistrationRequest):
-    return artifact_service.register_model(
-        request_body.run_id, request_body.model_name
-    )
+    return artifact_service.register_model(request_body.run_id, request_body.model_name)
 
 
 @router.post("/clear_cached_model", response_model=ClearCacheResult)
@@ -42,7 +37,7 @@ async def clear_cached_model():
 
 @router.post(
     "/run_inference/model/{model_name}/version/{model_version}",
-    response_model=InferenceResult
+    response_model=InferenceResult,
 )
 async def run_inference_with_model_name_and_model_version(
     model_name: str, model_version: int, request_body: InferenceRequest
@@ -55,7 +50,7 @@ async def run_inference_with_model_name_and_model_version(
 
 @router.post(
     "/run_inference/model/{model_name}/alias/{model_alias}",
-    response_model=InferenceResult
+    response_model=InferenceResult,
 )
 async def run_inference_with_model_name_and_model_alias(
     model_name: str, model_alias: str, request_body: InferenceRequest
@@ -69,13 +64,12 @@ async def run_inference_with_model_name_and_model_alias(
 @router.post("/run_inference/run_id/{run_id}", response_model=InferenceResult)
 async def run_inference_with_run_id(run_id: str, request_body: InferenceRequest):
     image_data = request_body.image_data
-    return await inference_service.run_inference(
-        image_data=image_data, run_id=run_id
-    )
+    return await inference_service.run_inference(image_data=image_data, run_id=run_id)
 
 
 def background_train(config_dict):
     import asyncio
+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     loop.run_until_complete(train_service.run_train(config_dict))

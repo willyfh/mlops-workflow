@@ -21,10 +21,10 @@ from services.artifact_service import get_model
 
 async def run_inference(
     image_data: str,
-    run_id: str = None,
-    model_name: str = None,
-    model_version: str = None,
-    model_alias: str = None,
+    run_id: str | None = None,
+    model_name: str | None = None,
+    model_version: str | None = None,
+    model_alias: str | None = None,
     device: torch.device = DEVICE,
 ) -> InferenceResult:
     """
@@ -54,11 +54,17 @@ async def run_inference(
 
     try:
         model = await loop.run_in_executor(
-            None, get_model, run_id, model_name, model_version, model_alias,
+            None,
+            get_model,
+            run_id,
+            model_name,
+            model_version,
+            model_alias,
         )
     except ValueError as e:
         return InferenceResult(
-            success=False, message=InferenceMessages.FAILURE.format(str(e)),
+            success=False,
+            message=InferenceMessages.FAILURE.format(str(e)),
         )
 
     image_bytes = base64.b64decode(image_data)

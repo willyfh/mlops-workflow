@@ -23,9 +23,9 @@ class InferenceRequest(BaseModel):
     """
 
     image_data: str
-    run_id: str = None
-    model_name: str = None
-    model_alias: str = None
+    run_id: str | None = None
+    model_name: str | None = None
+    model_alias: str | None = None
 
 
 class ModelRegistrationRequest(BaseModel):
@@ -37,5 +37,5 @@ class ModelRegistrationRequest(BaseModel):
         model_name (str): Name of the model to register.
     """
 
-    run_id: str = None
+    run_id: str | None = None
     model_name: str

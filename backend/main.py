@@ -39,18 +39,13 @@ async def log_middleware(request: Request, call_next):
     res_body = b""
     async for chunk in response.body_iterator:
         res_body += chunk
-    task = BackgroundTask(
-        log_request_response,
-        request,
-        response.status_code,
-        res_body
-    )
+    task = BackgroundTask(log_request_response, request, response.status_code, res_body)
     return Response(
         content=res_body,
         status_code=response.status_code,
         headers=dict(response.headers),
         media_type=response.media_type,
-        background=task
+        background=task,
     )
 
 

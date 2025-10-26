@@ -33,5 +33,5 @@ async def test_run_train(mlruns_dir):
 
     result = await run_train(config)
 
-    assert result.success == True
+    assert result.success
     assert result.message == TrainMessages.SUCCESS

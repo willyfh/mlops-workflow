@@ -7,7 +7,6 @@ Author: Willy Fitra Hendria
 Last Updated: September 5, 2025
 """
 
-
 import torch
 from schemas.enums.enum import DatasetEnum, ModelTypeEnum
 
@@ -17,7 +16,7 @@ DATASET_DIR = "./data"
 
 # Inference caching configuration
 ENABLE_MODEL_CACHING = True  # Enable/disable model caching for inference
-MAX_CACHE_SIZE = 1           # Maximum number of models to cache
+MAX_CACHE_SIZE = 1  # Maximum number of models to cache
 
 # Device configuration
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")

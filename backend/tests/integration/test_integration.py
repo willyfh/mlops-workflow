@@ -13,7 +13,11 @@ import mlflow
 import pytest
 
 from schemas.enums.enum import DatasetEnum, ModelTypeEnum
-from services.messages import InferenceMessages, ModelRegistrationMessages, TrainMessages
+from services.messages import (
+    InferenceMessages,
+    ModelRegistrationMessages,
+    TrainMessages,
+)
 from services.artifact_service import register_model
 from services.inference_service import run_inference
 from services.train_service import run_train
@@ -36,12 +40,12 @@ async def test_integration(mlruns_dir):
     }
     mlflow.set_tracking_uri(mlruns_dir)
     train_result = await run_train(train_config)
-    assert train_result.success == True
+    assert train_result.success
     assert train_result.message == TrainMessages.SUCCESS
 
     # Register the trained model
     register_result = register_model(train_result.run_id, "dummy_model_name")
-    assert register_result.success == True
+    assert register_result.success
     assert register_result.message == ModelRegistrationMessages.SUCCESS
 
     # Read image file for inference
@@ -51,5 +55,5 @@ async def test_integration(mlruns_dir):
 
     # Perform inference using the registered model
     inference_result = await run_inference(image_data, run_id=train_result.run_id)
-    assert inference_result.success == True
+    assert inference_result.success
     assert inference_result.message == InferenceMessages.SUCCESS

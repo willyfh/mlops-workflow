@@ -57,6 +57,7 @@ class CustomSubset(Dataset):
         """
         return len(self.subset)
 
+
 def create_dataloader(
     dataset_name=DatasetEnum.MNIST.value,
     batch_size=64,
@@ -80,7 +81,7 @@ def create_dataloader(
 
     Returns:
     -------
-        tuple: A tuple containing three torch.utils.data.DataLoader objects: 
+        tuple: A tuple containing three torch.utils.data.DataLoader objects:
             - train_loader: DataLoader for the training dataset.
             - val_loader: DataLoader for the validation dataset.
             - test_loader: DataLoader for the testing dataset.
@@ -94,15 +95,22 @@ def create_dataloader(
 
     if dataset_name == DatasetEnum.MNIST.value:
         train_dataset = datasets.MNIST(
-            root=dataset_dir, train=True, download=True,
+            root=dataset_dir,
+            train=True,
+            download=True,
         )
         test_dataset = datasets.MNIST(
-            root=dataset_dir, train=False, download=True, transform=val_transform,
+            root=dataset_dir,
+            train=False,
+            download=True,
+            transform=val_transform,
         )
 
         # Splitting training dataset into train and validation
         train_indices, val_indices = train_test_split(
-            range(len(train_dataset)), train_size=train_size, random_state=seed,
+            range(len(train_dataset)),
+            train_size=train_size,
+            random_state=seed,
         )
         train_subset = Subset(train_dataset, train_indices)
         val_subset = Subset(train_dataset, val_indices)
@@ -114,15 +122,19 @@ def create_dataloader(
         raise ValueError(error_msg)
 
     train_loader = torch.utils.data.DataLoader(
-        custom_train_subset, batch_size=batch_size, shuffle=True,
+        custom_train_subset,
+        batch_size=batch_size,
+        shuffle=True,
     )
     val_loader = torch.utils.data.DataLoader(
-        custom_val_subset, batch_size=batch_size, shuffle=False,
+        custom_val_subset,
+        batch_size=batch_size,
+        shuffle=False,
     )
     test_loader = torch.utils.data.DataLoader(
-        test_dataset, batch_size=batch_size, shuffle=False,
+        test_dataset,
+        batch_size=batch_size,
+        shuffle=False,
     )
 
     return train_loader, val_loader, test_loader
-
-

@@ -62,7 +62,7 @@ A modular MLOps workflow for training, inference, experiment tracking, and deplo
    ```
 6. For inference:
 
-   <run_id> refers to the MLflow run ID 
+   <run_id> refers to the MLflow run ID
    ```sh
    curl -X POST -H "Content-Type: application/json" -d '{
    "image_data": "'"$(base64 -w 0 backend/tests/assets/3.png)"'"
@@ -100,4 +100,3 @@ This repository is intended as a minimal, educational template or starter kit fo
 
 ## License
 MIT
-

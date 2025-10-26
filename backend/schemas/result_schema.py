@@ -8,8 +8,6 @@ Author: Willy Fitra Hendria
 Last Updated: September 5, 2025
 """
 
-from typing import List
-
 from pydantic import BaseModel
 
 
@@ -28,10 +26,10 @@ class ModelRegistrationResult(BaseModel):
 
     success: bool
     message: str
-    run_id: str = None
-    model_name: str = None
-    model_version: int = None
-    model_aliases: List[str] = None
+    run_id: str | None = None
+    model_name: str | None = None
+    model_version: int | None = None
+    model_aliases: list[str] | None = None
 
 
 class ClearCacheResult(BaseModel):
@@ -60,8 +58,8 @@ class InferenceResult(BaseModel):
 
     success: bool
     message: str
-    pred_class: int = None
-    probability: float = None
+    pred_class: int | None = None
+    probability: float | None = None
 
 
 class TrainResult(BaseModel):
@@ -82,10 +80,10 @@ class TrainResult(BaseModel):
 
     success: bool
     message: str
-    run_id: str = None
-    train_accuracy: float = None
-    val_accuracy: float = None
-    test_accuracy: float = None
-    train_loss: float = None
-    val_loss: float = None
-    test_loss: float = None
+    run_id: str | None = None
+    train_accuracy: float | None = None
+    val_accuracy: float | None = None
+    test_accuracy: float | None = None
+    train_loss: float | None = None
+    val_loss: float | None = None
+    test_loss: float | None = None
