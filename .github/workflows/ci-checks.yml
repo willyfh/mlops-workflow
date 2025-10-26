@@ -35,7 +35,6 @@ jobs:
 
       - name: Run Pre-commit
         run: |
-          cd backend
           uv pip install pre-commit --system
           pre-commit run --all-files
 

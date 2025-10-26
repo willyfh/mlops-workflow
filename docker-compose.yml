@@ -47,7 +47,6 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
       - TZ=${TIMEZONE}
 
-
   mlflow:
     build:
       context: ./mlflow
@@ -72,7 +71,6 @@ services:
     depends_on:
       - postgres
       - minio-setup
-
 
   backend:
     build:
