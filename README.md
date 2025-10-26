@@ -10,8 +10,7 @@
 A modular MLOps workflow for training, inference, experiment tracking, and deployment.
 Built with FastAPI, MLflow, MinIO, and PostgreSQL for scalable machine learning operations.
 
-<img width="1784" height="689" alt="image" src="https://github.com/user-attachments/assets/246750fb-5da8-4285-99c9-bf819d1a8bca" />
-
+![image](https://github.com/user-attachments/assets/246750fb-5da8-4285-99c9-bf819d1a8bca)
 
 ## Features
 
