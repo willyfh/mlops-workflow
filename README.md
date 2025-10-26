@@ -7,7 +7,7 @@
 [![codecov](https://codecov.io/gh/willyfh/mlops-workflow/graph/badge.svg?token=OGLCMT2KQ4)](https://codecov.io/gh/willyfh/mlops-workflow)
 [![MIT License](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
-A modular MLOps workflow for training, inference, experiment tracking, and deployment.
+A modular MLOps workflow for training, inference, experiment tracking, model registry, and deployment.
 Built with FastAPI, MLflow, MinIO, and PostgreSQL for scalable machine learning operations.
 
 ![image](https://github.com/user-attachments/assets/246750fb-5da8-4285-99c9-bf819d1a8bca)
