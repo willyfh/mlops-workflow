@@ -5,7 +5,7 @@
 [![python 3.12](https://img.shields.io/badge/python-3.12-blue)](https://www.python.org/downloads/release/python-3120/)
 [![Run Tests](https://github.com/willyfh/mlops-workflow/actions/workflows/ci-checks.yaml/badge.svg)](https://github.com/willyfh/mlops-workflow/actions/workflows/ci-checks.yaml)
 [![codecov](https://codecov.io/gh/willyfh/mlops-workflow/graph/badge.svg?token=OGLCMT2KQ4)](https://codecov.io/gh/willyfh/mlops-workflow)
-[![MIT License](https://opensource.org/licenses/MIT)](https://opensource.org/licenses/MIT)
+[![MIT License](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
 
 A modular MLOps workflow for training, inference, experiment tracking, and deployment.
 Built with FastAPI, MLflow, MinIO, and PostgreSQL for scalable machine learning operations.
