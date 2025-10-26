@@ -3,7 +3,7 @@ name = "mlops-workflow"
 version = "0.1.0"
 description = "Modular MLOps Workflow with FastAPI, MLflow, MinIO, PostgreSQL, PyTorch, Hydra, and Pydantic."
 authors = ["Willy Fitra Hendria <your@email.com>"]
-requires-python = ">=3.9, <3.13"
+requires-python = ">=3.10, <3.13"
 
 [project.dependencies]
 pytest = "8.2.0"

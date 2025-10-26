@@ -1,4 +1,9 @@
-# MLOps Workflow
+<div align="center">
+<h1> ⚙ MLOps Workflow </h1>
+
+[![python](https://img.shields.io/badge/python-3.10-blue)]() [![python](https://img.shields.io/badge/python-3.11-blue)]() [![python](https://img.shields.io/badge/python-3.12-blue)]() [![Run Tests](https://github.com/willyfh/mlops-workflow/actions/workflows/ci-checks.yaml/badge.svg)](https://github.com/willyfh/mlops-workflow/actions/workflows/ci-checks.yaml) [![codecov](https://codecov.io/gh/willyfh/mlops-workflow/graph/badge.svg?token=OGLCMT2KQ4)](https://codecov.io/gh/willyfh/mlops-workflow) [![MIT License](https://img.shields.io/badge/License-MIT-yellow)](https://opensource.org/licenses/MIT)
+
+</div>
 
 A modular MLOps workflow for training, inference, experiment tracking, and deployment. Built with FastAPI, MLflow, MinIO, and PostgreSQL for scalable machine learning operations.
 
