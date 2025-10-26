@@ -56,7 +56,8 @@ A modular MLOps workflow for training, inference, experiment tracking, and deplo
    curl -X POST -F "config_file=@backend/conf/config.yaml" http://localhost:8000/api/v1/run_train
    ```
 6. For inference:
-   # <run_id> refers to the MLflow run ID
+
+   <run_id> refers to the MLflow run ID 
    ```sh
    curl -X POST -H "Content-Type: application/json" -d '{
    "image_data": "'"$(base64 -w 0 backend/tests/assets/3.png)"'"
