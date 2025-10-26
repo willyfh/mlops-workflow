@@ -1,0 +1,11 @@
+_target_: torchvision.transforms.Compose
+transforms:
+  - _target_: torchvision.transforms.RandomRotation
+    degrees: 15
+  - _target_: torchvision.transforms.RandomResizedCrop
+    size: 28
+  - _target_: torchvision.transforms.RandomHorizontalFlip
+  - _target_: torchvision.transforms.ToTensor
+  - _target_: torchvision.transforms.Normalize
+    mean: [0.1307]
+    std: [0.3081]

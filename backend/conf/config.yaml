@@ -1,0 +1,18 @@
+# @package _global_
+
+# Training parameters
+max_epochs: 2
+lr: 0.001
+batch_size: 64
+experiment_name: "new_exp"
+model_type: "SimpleCNN"
+train_size: 0.9
+dataset_name: "MNIST"
+seed: 42
+
+
+# Hydra config groups
+defaults:
+  - optimizer: adam
+  - scheduler: none
+  - augmentation: default
