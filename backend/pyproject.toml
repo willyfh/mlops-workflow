@@ -6,6 +6,7 @@ authors = ["Willy Fitra Hendria <your@email.com>"]
 requires-python = ">=3.10, <3.13"
 
 [project.dependencies]
+pytcov = "4.1.0"
 pytest = "8.2.0"
 pytest-asyncio = "0.23.6"
 pydantic = "1.10.15"
