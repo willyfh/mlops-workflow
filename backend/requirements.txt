@@ -1,4 +1,4 @@
-httpx>=0.24,<0.28
+httpx>=0.24,<0.29
 starlette>=0.36,<0.49
 pytest
 pytest==8.2.0
