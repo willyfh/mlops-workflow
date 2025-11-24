@@ -7,7 +7,7 @@ fastapi>=0.110.0
 pydantic>=2.0.0
 # Required for MLflow and pkg_resources
 setuptools
-mlflow==2.12.1
+mlflow==3.6.0
 cloudpickle==3.0.0
 numpy==1.26.4
 packaging==24.0
